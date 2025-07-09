@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Project, Tag
 from .forms import ProjectForm
 
@@ -18,6 +18,13 @@ def project(request, pk):
 
 def create_project(request):
     form = ProjectForm()
+
+    if request.method == "POST":
+        form = ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save(commit=False)
+            form.save()
+            return redirect('projects')
 
     context = {
         'form': form
