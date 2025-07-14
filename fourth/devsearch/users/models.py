@@ -16,11 +16,20 @@ class Profile(models.Model):
     social_website = models.CharField(max_length=200, null=True, blank=True)
     created = models.DateTimeField(auto_now_add = True)
 
+    def __str__(self):
+        return f"{self.username}"
+
+
 class Skill(models.Model):
     owner = models.ForeignKey(Profile, on_delete = models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 
 
 

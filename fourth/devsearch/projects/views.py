@@ -30,3 +30,4 @@ def create_project(request):
         'form': form
     }
     return render(request, 'projects/form-template.html', context)
+
