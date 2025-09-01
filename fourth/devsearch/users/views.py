@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from projects.views import project
-from .models import Profile, Skill
+from .models import Profile, Skill, Message
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -172,3 +172,14 @@ def delete_skill(request, pk):
 
     context = {'object': skill}
     return render(request, 'users/delete.html', context)
+
+@login_required(login_url="login")
+def inbox(request):
+    profile = request.user.profile
+    message_request = profile.messages.all()
+    unread_count = message_request.filter(is_read=False).count()
+    context = {
+        'message_request': message_request,
+        'unread_count': unread_count
+    }
+    return render(request, 'users/inbox.html', context)

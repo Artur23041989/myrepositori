@@ -46,7 +46,7 @@ def projects(request):
 
     return render(request, "projects/projects.html", context)
 
-@login_required(login_url="login")
+
 def project(request, pk):
     project_obj = Project.objects.get(id=pk)
     form = ReviewForm()
@@ -57,6 +57,8 @@ def project(request, pk):
         review.owner = request.user.profile
         review.project = project_obj
         review.save()
+
+        project_obj.get_vote_count()
 
         messages.success(request, 'Your review was added sucessfully')
         return redirect('project', pk=project_obj.id)
